@@ -5,3 +5,4 @@ Code repository for "High-throughput identification of autoantibodies that targe
 Script Name | Description
 ------------ | -------------
 **reap_score_pipeline_v3.R** | script used to calculate REAP scores from a barcode count matrix derived from deep sequencing of the yeast library
+**SLE_REAP_wilcox_test.R** | script used to test for significant differences in REAP score for protein x clinical condition pairs in **Figure 4c**
