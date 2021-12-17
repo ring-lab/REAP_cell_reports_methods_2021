@@ -4,7 +4,8 @@ library(dplyr)
 
 # scores is a csv file with REAP scores. The first column contains the protein
 # name. The rest of the columns are individual patients and cells within a column
-# are the REAP scores for the given patient for the respective protein.
+# are the REAP scores for the given patient for the respective protein. The first row
+# contains patient sample names.
 scores <- read_csv("change_me.csv")
 scores <- as.data.frame(scores)
 rownames(scores) <- scores[,1]
@@ -13,13 +14,13 @@ scores <- scores[,-1]
 # clinical is a csv file. The first column contains the various clinical conditions
 # being assessed. The rest of the columns are individual patients and cells within
 # a column are a binary indication of whether a given patient has a given clinical
-# condition
+# condition. The first row contains patient sample names.
 clinical <- read_csv("change_me.csv")
 conditions <- clinical[,1]
 clinical <- clinical[,-1]
 samples <- colnames(clinical)
 
-# filter clinical so taht only conditions that are present in at least one patient
+# filter clinical so that only conditions that are present in at least one patient
 # are included
 conditions.present <- rowSums(clinical) > 0
 clinical <- clinical[conditions.present,]
@@ -29,13 +30,13 @@ conditions.present <- unlist(conditions)[conditions.present]
 # protein x condition pair
 full.pvalue <- array()
 for(i in 1:length(conditions.present)){
-  #generates list of TRUE/NA values for whether a condition is present in the row
+  # generates list of TRUE/NA values for whether a condition is present in the row
   conditions.tf <- clinical[i,] > 0
   
-  #generates vector containing positive sample names
+  # generates vector containing positive sample names
   positive <- samples[conditions.tf]
   
-  #generates vector containing negative sample names
+  # generates vector containing negative sample names
   negative <- samples[!conditions.tf]
   
   # filters scores into separate variables based on whether they are in patients
